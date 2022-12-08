@@ -18,11 +18,12 @@ import java.util.*;
 
 import entityunit.BasicEnemy;
 import entityunit.Player;
+import entityunit.Turret;
 
 public class Main extends Application {
-	private static final int HEIGHT = 600;
-	private static final int WIDTH = 800;
-	private static final int SPEED = 6;
+	private static final int HEIGHT = 800;
+	private static final int WIDTH = 1200;
+	private static final int SPEED = 3;
 	public static Player player;
 	Text scoreText, livesText;
 	private Map<KeyCode, Boolean> keys = new HashMap<>();
@@ -37,14 +38,18 @@ public class Main extends Application {
 		canvas.setFocusTraversable(true);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		pane.getChildren().add(canvas);
+		Date time = new Date();
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
+				long z = time.getTime();
 				update(gc);
+				long q = time.getTime();
+			System.out.println(q-z);
 			}
 		};
 		timer.start();
-		
+
 		spawnEnemies(gc);
 
 		canvas.setOnKeyPressed(e -> this.keys.put(e.getCode(), true));
@@ -59,45 +64,62 @@ public class Main extends Application {
 	}
 
 	private void update(GraphicsContext gc) {
-			gc.clearRect(0, 0, WIDTH, HEIGHT);
-			gc.setFill(Color.LIGHTPINK);
-			gc.fillRect(0, 0, WIDTH, HEIGHT);
+		gc.clearRect(0, 0, WIDTH, HEIGHT);
+		gc.setFill(Color.LIGHTPINK);
+		gc.fillRect(0, 0, WIDTH, HEIGHT);
 
-			this.player.render(gc);
+		this.player.render(gc);
 
-			if (this.keys.getOrDefault(KeyCode.W, false)) {
-				this.player.move(0, -SPEED);
-			}
-			if (this.keys.getOrDefault(KeyCode.A, false)) {
-				this.player.move(-SPEED, 0);
-			}
-			if (this.keys.getOrDefault(KeyCode.S, false)) {
-				this.player.move(0, SPEED);
-			}
-			if (this.keys.getOrDefault(KeyCode.D, false)) {
-				this.player.move(SPEED, 0);
-			}
-			for (BasicEnemy e : Main.enemies){
-				for (int j = 0; j < Player.bullets.size(); j++){
-					if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30 ,30)){
-						Player.bullets.remove(j);
-						enemies.remove(e);
-						this.player.setScore(player.getScore()+1);
-						break;
-					}
+		if (this.keys.getOrDefault(KeyCode.W, false)) {
+			this.player.move(0, -SPEED);
+		}
+		if (this.keys.getOrDefault(KeyCode.A, false)) {
+			this.player.move(-SPEED, 0);
+		}
+		if (this.keys.getOrDefault(KeyCode.S, false)) {
+			this.player.move(0, SPEED);
+		}
+		if (this.keys.getOrDefault(KeyCode.D, false)) {
+			this.player.move(SPEED, 0);
+		}
+		for (BasicEnemy e : Main.enemies) {
+			for (int j = 0; j < Player.bullets.size(); j++) {
+				if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
+					Player.bullets.remove(j);
+					enemies.remove(e);
+					this.player.setScore(player.getScore() + 1);
+					break;
 				}
-				e.move();
-				e.render(gc);
+				if (Player.bullets.get(j).getX() < 0 || Player.bullets.get(j).getX() > 1000)
+					Player.bullets.remove(j);
+				if (Player.bullets.get(j).getY() < 0 || Player.bullets.get(j).getY() > 2000)
+					Player.bullets.remove(j);
+
 			}
-			gc.setFill(Color.GREEN);
-			gc.fillRect(50, HEIGHT-80, 100*(this.player.getHp()/100.0), 30);
-			gc.setStroke(Color.BLACK);
-			gc.strokeRect(50, HEIGHT-80, 100, 30);
-			Font front = Font.font("Verdana",FontWeight.BOLD,15);
-			gc.setFont(front);
-			gc.setFill(Color.RED);
-			gc.fillText( "HP",60, HEIGHT-60);
-			gc.fillText( "Score: " + player.getScore(),50, HEIGHT-90);
+			e.move();
+			e.render(gc);
+		}
+			for (int j = 0; j < BasicEnemy.bullets.size(); j++) {
+				if (Main.player.collided(BasicEnemy.bullets.get(j).getX(), BasicEnemy.bullets.get(j).getY(), 30, 30)) {
+					BasicEnemy.bullets.remove(j);
+					Main.player.takeDamage(5);
+					if (!Main.player.isFlashing())
+						Main.player.hitByEnemy();
+				}
+				if (BasicEnemy.bullets.get(j).getX() < 0 || BasicEnemy.bullets.get(j).getX() > 1000)
+					BasicEnemy.bullets.remove(j);
+				if (BasicEnemy.bullets.get(j).getY() < 0 || BasicEnemy.bullets.get(j).getY() > 2000)
+					BasicEnemy.bullets.remove(j);
+			}
+		gc.setFill(Color.GREEN);
+		gc.fillRect(50, HEIGHT - 80, 100 * (this.player.getHp() / 100.0), 30);
+		gc.setStroke(Color.BLACK);
+		gc.strokeRect(50, HEIGHT - 80, 100, 30);
+		Font front = Font.font("Verdana", FontWeight.BOLD, 15);
+		gc.setFont(front);
+		gc.setFill(Color.RED);
+		gc.fillText("HP", 60, HEIGHT - 60);
+		gc.fillText("Score: " + player.getScore(), 50, HEIGHT - 90);
 	}
 
 	public void spawnEnemies(GraphicsContext gc) {
@@ -106,7 +128,11 @@ public class Main extends Application {
 				while (true) {
 					int x = (int) (Math.random() * 760);
 					int y = (int) (Math.random() * 559);
-					Main.enemies.add(new BasicEnemy( x, y));
+					int z = (int) (Math.random() * 2);
+					if (z == 0)
+						Main.enemies.add(new BasicEnemy(x, y));
+					if (z == 1)
+						Main.enemies.add(new Turret(x, y));
 					Thread.sleep(1000);
 				}
 			} catch (InterruptedException ex) {
@@ -127,5 +153,5 @@ public class Main extends Application {
 			}
 		}).start();
 	}
-	
+
 }
