@@ -9,18 +9,26 @@ import javafx.scene.paint.Color;
 import logic.Bullet;
 import logic.EnemyBullet;
 
-public class Turret extends BasicEnemy{
+public class Ranger extends BasicEnemy{
 	private boolean shooting = false;
 
-	public Turret(int x, int y) {
+	public Ranger(int x, int y) {
 		super(x, y);
-		setSpeed(1);
+		setSpeed(2);
 	}
 
 	public void render(GraphicsContext gc) {
-		gc.setFill(Color.GREEN);
-		gc.fillOval(this.getX(), this.getY(), 30, 30);
+		move();
 		shoot();
+		gc.setFill(Color.ORANGE);
+		gc.fillOval(this.getX(), this.getY(), 30, 30);
+	}
+	
+	@Override
+	public void move() {
+		double distance = Math.sqrt(Math.pow(this.getX() - Main.player.getX(), 2) + Math.pow(this.getY() - Main.player.getY(), 2));
+		if (distance > 350) 
+			super.move();
 	}
 	
 	public void shoot(){

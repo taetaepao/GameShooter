@@ -17,7 +17,10 @@ import javafx.scene.input.KeyCode;
 import java.util.*;
 
 import entityunit.BasicEnemy;
+import entityunit.Mage;
 import entityunit.Player;
+import entityunit.Ranger;
+import entityunit.Tank;
 import entityunit.Turret;
 
 public class Main extends Application {
@@ -28,6 +31,8 @@ public class Main extends Application {
 	Text scoreText, livesText;
 	private Map<KeyCode, Boolean> keys = new HashMap<>();
 	public static List<BasicEnemy> enemies = new ArrayList<>();
+	private int wavetime = 100 ,wave,note = 0;
+	private boolean use = true;
 
 	@Override
 	public void start(Stage stage) {
@@ -45,10 +50,22 @@ public class Main extends Application {
 				long z = time.getTime();
 				update(gc);
 				long q = time.getTime();
-			System.out.println(q-z);
+//				System.out.println(q - z);
 			}
 		};
 		timer.start();
+		
+		AnimationTimer timer2 = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				for (BasicEnemy e : Main.enemies) {
+					e.render(gc);
+					e.renderBullet(gc);
+					e.CheckBulletEnemy();
+				}
+			}
+		};
+		timer2.start();
 
 		spawnEnemies(gc);
 
@@ -86,8 +103,11 @@ public class Main extends Application {
 			for (int j = 0; j < Player.bullets.size(); j++) {
 				if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
 					Player.bullets.remove(j);
-					enemies.remove(e);
-					this.player.setScore(player.getScore() + 1);
+					e.setHp(e.getHp()-1);
+					if (e.getHp()==0) {
+						enemies.remove(e);
+						this.player.setScore(player.getScore() + 1);
+					}
 					break;
 				}
 				if (Player.bullets.get(j).getX() < 0 || Player.bullets.get(j).getX() > 1000)
@@ -96,21 +116,8 @@ public class Main extends Application {
 					Player.bullets.remove(j);
 
 			}
-			e.move();
-			e.render(gc);
+			
 		}
-			for (int j = 0; j < BasicEnemy.bullets.size(); j++) {
-				if (Main.player.collided(BasicEnemy.bullets.get(j).getX(), BasicEnemy.bullets.get(j).getY(), 30, 30)) {
-					BasicEnemy.bullets.remove(j);
-					Main.player.takeDamage(5);
-					if (!Main.player.isFlashing())
-						Main.player.hitByEnemy();
-				}
-				if (BasicEnemy.bullets.get(j).getX() < 0 || BasicEnemy.bullets.get(j).getX() > 1000)
-					BasicEnemy.bullets.remove(j);
-				if (BasicEnemy.bullets.get(j).getY() < 0 || BasicEnemy.bullets.get(j).getY() > 2000)
-					BasicEnemy.bullets.remove(j);
-			}
 		gc.setFill(Color.GREEN);
 		gc.fillRect(50, HEIGHT - 80, 100 * (this.player.getHp() / 100.0), 30);
 		gc.setStroke(Color.BLACK);
@@ -120,6 +127,23 @@ public class Main extends Application {
 		gc.setFill(Color.RED);
 		gc.fillText("HP", 60, HEIGHT - 60);
 		gc.fillText("Score: " + player.getScore(), 50, HEIGHT - 90);
+		gc.fillText("WAVE: "+wave, 50, HEIGHT - 110);
+		if(player.getScore()%10==0) {
+			wave = (player.getScore()/10)+1;
+			this.wavetime = 100;
+			waveshow(gc);
+		}
+
+	}
+	
+	public void waveshow(GraphicsContext gc) {
+		if(wavetime>0) {
+			use=true;
+			Font front2 = Font.font("Verdana", FontWeight.BOLD, 100);
+			gc.setFont(front2);
+			gc.fillText("WAVE "+wave, 350, HEIGHT/2);
+			wavetime--;
+		}
 	}
 
 	public void spawnEnemies(GraphicsContext gc) {
@@ -128,12 +152,16 @@ public class Main extends Application {
 				while (true) {
 					int x = (int) (Math.random() * 760);
 					int y = (int) (Math.random() * 559);
-					int z = (int) (Math.random() * 2);
+					int z = (int) (Math.random() * 4);
 					if (z == 0)
 						Main.enemies.add(new BasicEnemy(x, y));
 					if (z == 1)
 						Main.enemies.add(new Turret(x, y));
-					Thread.sleep(1000);
+					if (z == 2)
+						Main.enemies.add(new Ranger(x, y));
+					if (z == 3)
+						Main.enemies.add(new Mage(x, y));
+					Thread.sleep(1500);
 				}
 			} catch (InterruptedException ex) {
 				ex.printStackTrace();

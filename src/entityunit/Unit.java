@@ -4,7 +4,7 @@ import application.Main;
 
 public abstract class Unit {
 	private double x, y;
-	private int defend;
+	private int hp;
 	private int speed;
 	private int attack;
 	protected static int WIDTH=40;
@@ -45,11 +45,11 @@ public abstract class Unit {
 	public void setY(double y) {
 		this.y = y;
 	}
-	public int getDefend() {
-		return defend;
+	public int getHp() {
+		return hp;
 	}
-	public void setDefend(int defend) {
-		this.defend = defend;
+	public void setHp(int defend) {
+		this.hp = defend;
 	}
 	public int getSpeed() {
 		return speed;
