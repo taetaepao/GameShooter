@@ -128,7 +128,7 @@ public class Main extends Application {
 		gc.fillText("HP", 60, HEIGHT - 60);
 		gc.fillText("Score: " + player.getScore(), 50, HEIGHT - 90);
 		gc.fillText("WAVE: "+wave, 50, HEIGHT - 110);
-		if(player.getScore()%10==0) {
+		if(player.getScore()%10==0){
 			wave = (player.getScore()/10)+1;
 			this.wavetime = 100;
 			waveshow(gc);
@@ -152,7 +152,7 @@ public class Main extends Application {
 				while (true) {
 					int x = (int) (Math.random() * 760);
 					int y = (int) (Math.random() * 559);
-					int z = (int) (Math.random() * 4);
+					int z = (int) (Math.random() * 3);
 					if (z == 0)
 						Main.enemies.add(new BasicEnemy(x, y));
 					if (z == 1)
@@ -160,7 +160,7 @@ public class Main extends Application {
 					if (z == 2)
 						Main.enemies.add(new Ranger(x, y));
 					if (z == 3)
-						Main.enemies.add(new Mage(x, y));
+						Main.enemies.add(new Tank(x, y));
 					Thread.sleep(1500);
 				}
 			} catch (InterruptedException ex) {

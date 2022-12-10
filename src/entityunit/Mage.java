@@ -28,8 +28,8 @@ public class Mage extends BasicEnemy{
 	}
 	
 	public void spell() {
-			Main.player.sleep();
-
+		Main.player.sleep();
+		System.out.println("spell");
 	}
 
 }
