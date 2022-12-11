@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class EnemyBullet extends Bullet {
-	private static final double SPEED = 1;
+	private final double SPEED = 3;
 	public static final double WIDTH = 10;
 	private double dx,dy;
 

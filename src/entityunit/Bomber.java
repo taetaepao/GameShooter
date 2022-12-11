@@ -18,7 +18,7 @@ public class Bomber extends BasicEnemy{
 	@Override
 	public void render(GraphicsContext gc) {
 		gc.setFill(Color.BROWN);
-		gc.fillOval(this.getX(), this.getY(), 30, 30);
+		gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
 		move();
 	}
 

@@ -7,7 +7,8 @@ public abstract class Unit {
 	private int hp;
 	private int speed;
 	private int attack;
-	protected static int WIDTH=40;
+	protected static int SIZE=30;
+	protected static int NOTE=-35;
 	
 	public Unit(double x, double y){
 		this.x = x;
@@ -19,7 +20,7 @@ public abstract class Unit {
 	public boolean checkCollision() {
 		for (BasicEnemy e : Main.enemies) {
 			if (e != this) {
-				if (e.collided(this.getX(), this.getY(), 30, 30)) {
+				if (e.collided(this.getX(), this.getY(), SIZE, SIZE)) {
 					return true;
 				}
 			}
@@ -28,8 +29,7 @@ public abstract class Unit {
 	}
 
 	public boolean collided(double x, double y, double w1, double w2) {
-		return Math.sqrt(Math.pow(this.getX() + w1 / 2 - x - w2 / 2, 2)
-				+ Math.pow(this.getY() + w1 / 2 - y - w2 / 2, 2)) <= w1 / 2 + w2 / 2;
+		return Math.sqrt(Math.pow(this.getX() + w1 / 2 - x - w2 / 2, 2)+ Math.pow(this.getY() + w1 / 2 - y - w2 / 2, 2)) <= w1 / 2 + w2 / 2;
 	}
 
 	
@@ -63,4 +63,13 @@ public abstract class Unit {
 	public void setAttack(int attack) {
 		this.attack = attack;
 	}
+
+	public static int getSIZE() {
+		return SIZE;
+	}
+
+	public static void setSIZE(int sIZE) {
+		SIZE = sIZE;
+	}
+	
 }

@@ -1,7 +1,10 @@
 package entityunit;
 
 import application.Main;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class Tank extends BasicEnemy{
@@ -9,6 +12,7 @@ public class Tank extends BasicEnemy{
 	public Tank(int x, int y) {
 		super(x, y);
 		setHp(10);
+		setSIZE(60);
 	}
 
 	@Override
@@ -19,8 +23,14 @@ public class Tank extends BasicEnemy{
 
 	@Override
 	public void render(GraphicsContext gc) {
-		gc.setFill(Color.BLUE);
-		gc.fillOval(this.getX(), this.getY(), 60, 60);
+		ImageView imageView = new ImageView("image/Tank.png");
+		imageView.setFitHeight(200);
+		imageView.setFitWidth(200);
+		imageView.setRotate(angle*60);
+		SnapshotParameters params = new SnapshotParameters();
+		params.setFill(Color.TRANSPARENT);
+		Image rotatedImage = imageView.snapshot(params, null);
+		gc.drawImage(rotatedImage,this.getX()+NOTE*2, this.getY()+NOTE*2);
 		move();
 	}
 	
@@ -35,9 +45,5 @@ public class Tank extends BasicEnemy{
 		return false;
 	}
 
-	public boolean collided(double x, double y, double w1, double w2) {
-		return Math.sqrt(Math.pow(this.getX() + w1 / 2 - x - w2 / 2, 2)
-				+ Math.pow(this.getY() + w1 / 2 - y - w2 / 2, 2)) <= w1 / 2 + w2 / 2;
-	}
 
 }

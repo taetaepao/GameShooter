@@ -1,12 +1,11 @@
 package entityunit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import application.Main;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import logic.Bullet;
 import logic.EnemyBullet;
 
 public class Ranger extends BasicEnemy{
@@ -18,10 +17,16 @@ public class Ranger extends BasicEnemy{
 	}
 
 	public void render(GraphicsContext gc) {
+		ImageView imageView = new ImageView("image/Mage.png");
+		imageView.setFitHeight(100);
+		imageView.setFitWidth(100);
+		imageView.setRotate(angle*60);
+		SnapshotParameters params = new SnapshotParameters();
+		params.setFill(Color.TRANSPARENT);
+		Image rotatedImage = imageView.snapshot(params, null);
+		gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
 		move();
 		shoot();
-		gc.setFill(Color.ORANGE);
-		gc.fillOval(this.getX(), this.getY(), 30, 30);
 	}
 	
 	@Override

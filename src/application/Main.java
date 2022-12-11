@@ -6,6 +6,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.*;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -31,13 +32,13 @@ public class Main extends Application {
 	Text scoreText, livesText;
 	private Map<KeyCode, Boolean> keys = new HashMap<>();
 	public static List<BasicEnemy> enemies = new ArrayList<>();
-	private int wavetime = 100 ,wave,note = 0;
+	private int wavetime = 100 ,wave = 0;
 	private boolean use = true;
 
 	@Override
 	public void start(Stage stage) {
 		stage.setTitle("Simple shooter game");
-
+		Main.player = new Player(200, 200);
 		StackPane pane = new StackPane();
 		Canvas canvas = new Canvas(WIDTH, HEIGHT);
 		canvas.setFocusTraversable(true);
@@ -60,9 +61,9 @@ public class Main extends Application {
 			public void handle(long now) {
 				for (BasicEnemy e : Main.enemies) {
 					e.render(gc);
-					e.renderBullet(gc);
-					e.CheckBulletEnemy();
 				}
+				BasicEnemy.CheckBulletEnemy();
+				BasicEnemy.renderBullet(gc);
 			}
 		};
 		timer2.start();
@@ -71,10 +72,9 @@ public class Main extends Application {
 
 		canvas.setOnKeyPressed(e -> this.keys.put(e.getCode(), true));
 		canvas.setOnKeyReleased(e -> this.keys.put(e.getCode(), false));
-		canvas.setOnMousePressed(e -> this.player.shoot(e.getX(), e.getY()));
-		canvas.setOnMouseDragged(e -> this.player.shoot(e.getX(), e.getY()));
+		canvas.setOnMousePressed(e -> Main.player.shoot(e.getX(), e.getY()));
+		canvas.setOnMouseDragged(e -> Main.player.shoot(e.getX(), e.getY()));
 
-		this.player = new Player(200, 200);
 		Scene scene = new Scene(pane, WIDTH, HEIGHT);
 		stage.setScene(scene);
 		stage.show();
@@ -85,19 +85,19 @@ public class Main extends Application {
 		gc.setFill(Color.LIGHTPINK);
 		gc.fillRect(0, 0, WIDTH, HEIGHT);
 
-		this.player.render(gc);
+		Main.player.render(gc);
 
 		if (this.keys.getOrDefault(KeyCode.W, false)) {
-			this.player.move(0, -SPEED);
+			Main.player.move(0, -SPEED);
 		}
 		if (this.keys.getOrDefault(KeyCode.A, false)) {
-			this.player.move(-SPEED, 0);
+			Main.player.move(-SPEED, 0);
 		}
 		if (this.keys.getOrDefault(KeyCode.S, false)) {
-			this.player.move(0, SPEED);
+			Main.player.move(0, SPEED);
 		}
 		if (this.keys.getOrDefault(KeyCode.D, false)) {
-			this.player.move(SPEED, 0);
+			Main.player.move(SPEED, 0);
 		}
 		for (BasicEnemy e : Main.enemies) {
 			for (int j = 0; j < Player.bullets.size(); j++) {
@@ -106,7 +106,7 @@ public class Main extends Application {
 					e.setHp(e.getHp()-1);
 					if (e.getHp()==0) {
 						enemies.remove(e);
-						this.player.setScore(player.getScore() + 1);
+						Main.player.setScore(player.getScore() + 1);
 					}
 					break;
 				}
@@ -119,7 +119,7 @@ public class Main extends Application {
 			
 		}
 		gc.setFill(Color.GREEN);
-		gc.fillRect(50, HEIGHT - 80, 100 * (this.player.getHp() / 100.0), 30);
+		gc.fillRect(50, HEIGHT - 80, 100 * (Main.player.getHp() / 100.0), 30);
 		gc.setStroke(Color.BLACK);
 		gc.strokeRect(50, HEIGHT - 80, 100, 30);
 		Font front = Font.font("Verdana", FontWeight.BOLD, 15);
@@ -132,7 +132,13 @@ public class Main extends Application {
 			wave = (player.getScore()/10)+1;
 			this.wavetime = 100;
 			waveshow(gc);
+			use=true;
 		}
+		if(use==true){
+			
+		}
+		
+		
 
 	}
 	
@@ -152,7 +158,7 @@ public class Main extends Application {
 				while (true) {
 					int x = (int) (Math.random() * 760);
 					int y = (int) (Math.random() * 559);
-					int z = (int) (Math.random() * 3);
+					int z = (int) (Math.random() * 4);
 					if (z == 0)
 						Main.enemies.add(new BasicEnemy(x, y));
 					if (z == 1)
@@ -181,5 +187,9 @@ public class Main extends Application {
 			}
 		}).start();
 	}
+	
+	public static void main(String[] args) {
+        launch(args);
+    }
 
 }

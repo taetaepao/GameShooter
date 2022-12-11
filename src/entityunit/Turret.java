@@ -1,12 +1,8 @@
 package entityunit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import application.Main;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import logic.Bullet;
 import logic.EnemyBullet;
 
 public class Turret extends BasicEnemy{
@@ -19,7 +15,7 @@ public class Turret extends BasicEnemy{
 
 	public void render(GraphicsContext gc) {
 		gc.setFill(Color.GREEN);
-		gc.fillOval(this.getX(), this.getY(), 30, 30);
+		gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
 		shoot();
 	}
 	

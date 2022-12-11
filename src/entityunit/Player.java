@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Main;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import logic.Bullet;
 
@@ -17,11 +20,14 @@ public class Player extends Unit {
 	private int flashCounter = 0;
 	private int flashDurationCounter = 0;
 	private int sleepTime = 0;
+	private double angle;
+	
 
 	public Player(int x, int y) {
 		super(x, y);
 		setAttack(y);
 		setSpeed(5);
+		setSIZE(200);
 
 	}
 
@@ -32,30 +38,62 @@ public class Player extends Unit {
 	}
 
 	public void render(GraphicsContext gc) {
+		ImageView imageView = new ImageView("image/Player (2).png");
+		imageView.setFitHeight(100);
+		imageView.setFitWidth(100);
+		imageView.setRotate(angle*60+180);
+		SnapshotParameters params = new SnapshotParameters();
+		params.setFill(Color.TRANSPARENT);
+		Image rotatedImage = imageView.snapshot(params, null);
+
 		if (flashing) {
 			if (flashCounter == 0) {
-				gc.setFill(Color.RED);
-				gc.fillOval(this.getX(), this.getY(), WIDTH, WIDTH);
+				gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
 				flashing = false;
 			} else {
 				if (flashDurationCounter > 0) {
 					if (flashCounter <= 5) {
-						gc.setFill(Color.RED);
-						gc.fillOval(this.getX(), this.getY(), WIDTH, WIDTH);
+						gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
 					}
 					flashDurationCounter--;
 				} else {
-					gc.setFill(Color.RED);
-					gc.fillOval(this.getX(), this.getY(), WIDTH, WIDTH);
+					gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
 					flashDurationCounter = 10;
 					flashCounter--;
 				}
 			}
 		} else {
-			gc.setFill(Color.RED);
-			gc.fillOval(this.getX(), this.getY(), WIDTH, WIDTH);
+			gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
 		}
 		for (int i = 0; i < Player.bullets.size(); i++) {
+			Player.bullets.get(i).render(gc);
+		}
+		
+		//-----------------------------------------------
+		if (flashing) {
+			if (flashCounter == 0) {
+				gc.setFill(Color.RED);
+				gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
+				flashing = false;
+			} else {
+				if (flashDurationCounter > 0) {
+					if(flashCounter <= 5) {
+						gc.setFill(Color.RED);
+						gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
+					}
+					flashDurationCounter--;
+				} else {
+					gc.setFill(Color.RED);
+					gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
+					flashDurationCounter = 10;
+					flashCounter--;
+				}
+			}
+		}else {
+		gc.setFill(Color.RED);
+		gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
+		}
+		for (int i = 0; i < Player.bullets.size(); i++){
 			Player.bullets.get(i).render(gc);
 		}
 	}
@@ -66,7 +104,7 @@ public class Player extends Unit {
 			this.setY(this.getY() + y);
 		}
 		sleepTime--;
-		System.out.println(sleepTime);
+//		System.out.println(sleepTime);
 	}
 
 	public void shoot(double x, double y) {
@@ -75,16 +113,17 @@ public class Player extends Unit {
 		shooting = true;
 		Main.shedule(150, () -> this.shooting = false);
 		double angle = Math.atan2(y - 35 - this.getY(), x - 35 - this.getX());
-		Bullet b = new Bullet(angle, this.getX() + WIDTH / 2, this.getY() + WIDTH / 2);
+		this.angle = angle;
+		Bullet b = new Bullet(angle, this.getX() + SIZE / 2, this.getY() + SIZE / 2);
 		Player.bullets.add(b);
 
 	}
 
 	public void takeDamage(int dmg) {
-		if (damage)
-			return;
+		if (damage)return;
 		this.hp -= dmg;
 		damage = true;
+		Main.shedule(400, () -> damage = false);
 	}
 
 	public void sleep() {
