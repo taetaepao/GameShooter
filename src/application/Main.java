@@ -100,25 +100,7 @@ public class Main extends Application {
 		if (this.keys.getOrDefault(KeyCode.D, false)) {
 			Main.player.move(SPEED, 0);
 		}
-//		for (BasicEnemy e : Main.enemies) {
-//			for (int j = 0; j < Player.bullets.size(); j++) {
-//				if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
-//					Player.bullets.remove(j);
-//					e.setHp(e.getHp() - 1);
-//					if (e.getHp() == 0) {
-//						enemies.remove(e);
-//						Main.player.setScore(player.getScore() + 1);
-//					}
-//					break;
-//				}
-//				if (Player.bullets.get(j).getX() < 0 || Player.bullets.get(j).getX() > 1200)
-//					Player.bullets.remove(j);
-//				if (Player.bullets.get(j).getY() < 0 || Player.bullets.get(j).getY() > 800)
-//					Player.bullets.remove(j);
-//
-//			}
-//
-//		}
+
 		GameLogic.CheckBulletPlayer();
 		gc.setFill(Color.GREEN);
 		gc.fillRect(50, HEIGHT - 80, 100 * (Main.player.getHp() / 100.0), 30);
@@ -160,9 +142,9 @@ public class Main extends Application {
 		Thread spawner = new Thread(() -> {
 			try {
 				while (true) {
-						int x = (int) (Math.random() * 1200);
+						int x = (int) (Math.random() * 1150);
 						int y = (int) (Math.random() * 800);
-						int z = (int) (Math.random() * 0);
+						int z = (int) (Math.random() * 4);
 						if (Main.enemies.size() < 5) {
 							if (z == 0)
 								Main.enemies.add(new Mage(x, y));

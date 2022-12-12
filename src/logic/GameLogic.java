@@ -43,4 +43,6 @@ public class GameLogic {
 				BasicEnemy.bullets.remove(j);
 		}
 	}
+	
+	
 }

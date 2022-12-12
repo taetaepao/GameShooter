@@ -61,20 +61,5 @@ public class BasicEnemy extends Unit {
 
 	}
 
-//	public static void CheckBulletEnemy() {
-//		for (int j = 0; j < BasicEnemy.bullets.size(); j++) {
-//			if (Main.player.collided(BasicEnemy.bullets.get(j).getX(), BasicEnemy.bullets.get(j).getY(), 30, 30)) {
-//				if (!Main.player.isFlashing()) {
-//					Main.player.hitByEnemy();
-//					BasicEnemy.bullets.remove(j);
-//					Main.player.takeDamage(5);
-//				}
-//			}
-//			if (BasicEnemy.bullets.get(j).getX() < 0 || BasicEnemy.bullets.get(j).getX() > 1200)
-//				BasicEnemy.bullets.remove(j);
-//			if (BasicEnemy.bullets.get(j).getY() < 0 || BasicEnemy.bullets.get(j).getY() > 800)
-//				BasicEnemy.bullets.remove(j);
-//		}
-//	}
 
 }
