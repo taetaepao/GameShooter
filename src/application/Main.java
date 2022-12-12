@@ -147,13 +147,15 @@ public class Main extends Application {
 						int z = (int) (Math.random() * 4);
 						if (Main.enemies.size() < 5) {
 							if (z == 0)
-								Main.enemies.add(new Mage(x, y));
+								Main.enemies.add(new BasicEnemy(x, y));
 							if (z == 1)
 								Main.enemies.add(new Turret(x, y));
 							if (z == 2)
 								Main.enemies.add(new Ranger(x, y));
 							if (z == 3)
 								Main.enemies.add(new Tank(x, y));
+							if (z == 4)
+								Main.enemies.add(new Mage(x, y));
 						}
 						Thread.sleep(1500);
 				}
