@@ -14,16 +14,11 @@ public class Ranger extends BasicEnemy{
 	public Ranger(int x, int y) {
 		super(x, y);
 		setSpeed(2);
+		setPicture("image/Mage.png");
 	}
 
 	public void render(GraphicsContext gc) {
-		ImageView imageView = new ImageView("image/Mage.png");
-		imageView.setFitHeight(100);
-		imageView.setFitWidth(100);
-		imageView.setRotate(angle*60);
-		SnapshotParameters params = new SnapshotParameters();
-		params.setFill(Color.TRANSPARENT);
-		Image rotatedImage = imageView.snapshot(params, null);
+		Image rotatedImage = picture(angle,Width);
 		gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
 		move();
 		shoot();
@@ -39,7 +34,7 @@ public class Ranger extends BasicEnemy{
 	public void shoot(){
 		if (shooting) return;
 		shooting = true;
-		Main.shedule(500, () -> this.shooting = false);
+		Main.shedule(1000, () -> this.shooting = false);
 		double angle = Math.atan2(Main.player.getY()-this.getY(), Main.player.getX()-this.getX());
 		EnemyBullet b = new EnemyBullet(angle, this.getX(), this.getY());
 		BasicEnemy.bullets.add(b);

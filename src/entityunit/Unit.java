@@ -1,14 +1,23 @@
 package entityunit;
 
 import application.Main;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
+/**
+ * @author User
+ *
+ */
 public abstract class Unit {
 	private double x, y;
 	private int hp;
 	private int speed;
 	private int attack;
-	protected static int SIZE=30;
-	protected static int NOTE=-35;
+	protected int SIZE,Width=100;
+	protected static int NOTE=-50;
+	private String Picture;
 	
 	public Unit(double x, double y){
 		this.x = x;
@@ -30,6 +39,16 @@ public abstract class Unit {
 
 	public boolean collided(double x, double y, double w1, double w2) {
 		return Math.sqrt(Math.pow(this.getX() + w1 / 2 - x - w2 / 2, 2)+ Math.pow(this.getY() + w1 / 2 - y - w2 / 2, 2)) <= w1 / 2 + w2 / 2;
+	}
+	
+	public Image picture(double angle,int Width) {
+		ImageView imageView = new ImageView(this.Picture);
+		imageView.setFitHeight(Width);
+		imageView.setFitWidth(Width);
+		imageView.setRotate(angle*60);
+		SnapshotParameters params = new SnapshotParameters();
+		params.setFill(Color.TRANSPARENT);
+		return imageView.snapshot(params, null);
 	}
 
 	
@@ -64,12 +83,34 @@ public abstract class Unit {
 		this.attack = attack;
 	}
 
-	public static int getSIZE() {
+	public String getPicture() {
+		return Picture;
+	}
+
+	public void setPicture(String picture) {
+		Picture = picture;
+	}
+
+	public int getSIZE() {
 		return SIZE;
 	}
 
-	public static void setSIZE(int sIZE) {
+	public void setSIZE(int sIZE) {
 		SIZE = sIZE;
 	}
+
+	public int getWidth() {
+		return Width;
+	}
+
+	public void setWidth(int width) {
+		Width = width;
+	}
+	
+	
+	
+	
+
+	
 	
 }

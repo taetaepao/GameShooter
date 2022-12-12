@@ -22,7 +22,7 @@ public class Turret extends BasicEnemy{
 	public void shoot(){
 		if (shooting) return;
 		shooting = true;
-		Main.shedule(500, () -> this.shooting = false);
+		Main.shedule(1000, () -> this.shooting = false);
 		double angle = Math.atan2(Main.player.getY()-this.getY(), Main.player.getX()-this.getX());
 		EnemyBullet b = new EnemyBullet(angle, this.getX(), this.getY());
 		BasicEnemy.bullets.add(b);

@@ -13,6 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.animation.*;
 import javafx.util.Duration;
+import logic.GameLogic;
 import javafx.scene.input.KeyCode;
 
 import java.util.*;
@@ -32,7 +33,7 @@ public class Main extends Application {
 	Text scoreText, livesText;
 	private Map<KeyCode, Boolean> keys = new HashMap<>();
 	public static List<BasicEnemy> enemies = new ArrayList<>();
-	private int wavetime = 100 ,wave = 0;
+	private int wavetime = 100, wave = 0, cooldown = 0;
 	private boolean use = true;
 
 	@Override
@@ -55,15 +56,15 @@ public class Main extends Application {
 			}
 		};
 		timer.start();
-		
+
 		AnimationTimer timer2 = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
+				BasicEnemy.renderBullet(gc);
 				for (BasicEnemy e : Main.enemies) {
 					e.render(gc);
 				}
-				BasicEnemy.CheckBulletEnemy();
-				BasicEnemy.renderBullet(gc);
+				GameLogic.CheckBulletEnemy();
 			}
 		};
 		timer2.start();
@@ -99,25 +100,26 @@ public class Main extends Application {
 		if (this.keys.getOrDefault(KeyCode.D, false)) {
 			Main.player.move(SPEED, 0);
 		}
-		for (BasicEnemy e : Main.enemies) {
-			for (int j = 0; j < Player.bullets.size(); j++) {
-				if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
-					Player.bullets.remove(j);
-					e.setHp(e.getHp()-1);
-					if (e.getHp()==0) {
-						enemies.remove(e);
-						Main.player.setScore(player.getScore() + 1);
-					}
-					break;
-				}
-				if (Player.bullets.get(j).getX() < 0 || Player.bullets.get(j).getX() > 1000)
-					Player.bullets.remove(j);
-				if (Player.bullets.get(j).getY() < 0 || Player.bullets.get(j).getY() > 2000)
-					Player.bullets.remove(j);
-
-			}
-			
-		}
+//		for (BasicEnemy e : Main.enemies) {
+//			for (int j = 0; j < Player.bullets.size(); j++) {
+//				if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
+//					Player.bullets.remove(j);
+//					e.setHp(e.getHp() - 1);
+//					if (e.getHp() == 0) {
+//						enemies.remove(e);
+//						Main.player.setScore(player.getScore() + 1);
+//					}
+//					break;
+//				}
+//				if (Player.bullets.get(j).getX() < 0 || Player.bullets.get(j).getX() > 1200)
+//					Player.bullets.remove(j);
+//				if (Player.bullets.get(j).getY() < 0 || Player.bullets.get(j).getY() > 800)
+//					Player.bullets.remove(j);
+//
+//			}
+//
+//		}
+		GameLogic.CheckBulletPlayer();
 		gc.setFill(Color.GREEN);
 		gc.fillRect(50, HEIGHT - 80, 100 * (Main.player.getHp() / 100.0), 30);
 		gc.setStroke(Color.BLACK);
@@ -127,27 +129,29 @@ public class Main extends Application {
 		gc.setFill(Color.RED);
 		gc.fillText("HP", 60, HEIGHT - 60);
 		gc.fillText("Score: " + player.getScore(), 50, HEIGHT - 90);
-		gc.fillText("WAVE: "+wave, 50, HEIGHT - 110);
-		if(player.getScore()%10==0){
-			wave = (player.getScore()/10)+1;
+		gc.fillText("WAVE: " + wave, 50, HEIGHT - 110);
+		if (Player.bullet != 0)
+			gc.fillText("Bullet: " + Player.bullet + " /30", 50, HEIGHT - 130);
+		else
+			gc.fillText("Bullet: Reloading...", 50, HEIGHT - 130);
+
+		if (player.getScore() % 10 == 0) {
+			wave = (player.getScore() / 10) + 1;
 			this.wavetime = 100;
 			waveshow(gc);
-			use=true;
-		}
-		if(use==true){
-			
+			use = true;
 		}
 		
-		
+		player.setSleepTime(player.getSleepTime()-1);
 
 	}
-	
+
 	public void waveshow(GraphicsContext gc) {
-		if(wavetime>0) {
-			use=true;
+		if (wavetime > 0) {
+			use = true;
 			Font front2 = Font.font("Verdana", FontWeight.BOLD, 100);
 			gc.setFont(front2);
-			gc.fillText("WAVE "+wave, 350, HEIGHT/2);
+			gc.fillText("WAVE " + wave, 350, HEIGHT / 2);
 			wavetime--;
 		}
 	}
@@ -156,18 +160,20 @@ public class Main extends Application {
 		Thread spawner = new Thread(() -> {
 			try {
 				while (true) {
-					int x = (int) (Math.random() * 760);
-					int y = (int) (Math.random() * 559);
-					int z = (int) (Math.random() * 4);
-					if (z == 0)
-						Main.enemies.add(new BasicEnemy(x, y));
-					if (z == 1)
-						Main.enemies.add(new Turret(x, y));
-					if (z == 2)
-						Main.enemies.add(new Ranger(x, y));
-					if (z == 3)
-						Main.enemies.add(new Tank(x, y));
-					Thread.sleep(1500);
+						int x = (int) (Math.random() * 1200);
+						int y = (int) (Math.random() * 800);
+						int z = (int) (Math.random() * 0);
+						if (Main.enemies.size() < 5) {
+							if (z == 0)
+								Main.enemies.add(new Mage(x, y));
+							if (z == 1)
+								Main.enemies.add(new Turret(x, y));
+							if (z == 2)
+								Main.enemies.add(new Ranger(x, y));
+							if (z == 3)
+								Main.enemies.add(new Tank(x, y));
+						}
+						Thread.sleep(1500);
 				}
 			} catch (InterruptedException ex) {
 				ex.printStackTrace();
@@ -187,9 +193,9 @@ public class Main extends Application {
 			}
 		}).start();
 	}
-	
+
 	public static void main(String[] args) {
-        launch(args);
-    }
+		launch(args);
+	}
 
 }

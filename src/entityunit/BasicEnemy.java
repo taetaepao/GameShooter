@@ -23,6 +23,7 @@ public class BasicEnemy extends Unit {
 		setHp(1);
 		setSpeed(1);
 		setSIZE(40);
+		setPicture("image/BasicEnemy.png");
 	}
 
 	public void move() {
@@ -30,8 +31,7 @@ public class BasicEnemy extends Unit {
 		this.angle = angle;
 		double x = Math.cos(angle) * this.getSpeed();
 		double y = Math.sin(angle) * this.getSpeed();
-		double distance = Math
-				.sqrt(Math.pow(this.getX() - Main.player.getX(), 2) + Math.pow(this.getY() - Main.player.getY(), 2));
+		double distance = Math.sqrt(Math.pow(this.getX() - Main.player.getX(), 2) + Math.pow(this.getY() - Main.player.getY(), 2));
 		if (distance <= 50) {
 			Main.player.takeDamage(5);
 			if (!Main.player.isFlashing())
@@ -48,56 +48,33 @@ public class BasicEnemy extends Unit {
 	}
 
 	public void render(GraphicsContext gc) {
-		ImageView imageView = new ImageView("image/BasicEnemy.png");
-		imageView.setFitHeight(100);
-		imageView.setFitWidth(100);
-		imageView.setRotate(angle * 60);
-		SnapshotParameters params = new SnapshotParameters();
-		params.setFill(Color.TRANSPARENT);
-		Image rotatedImage = imageView.snapshot(params, null);
+		Image rotatedImage = picture(angle, Width);
 		gc.drawImage(rotatedImage, this.getX() + NOTE, this.getY() + NOTE);
 		move();
 	}
 
 	public static void renderBullet(GraphicsContext gc) {
-		for (EnemyBullet j : BasicEnemy.bullets) {
-			j.render(gc);
-		}
+
+			for (EnemyBullet j : BasicEnemy.bullets) {
+				j.render(gc);
+			}
+
 	}
 
-	public static void CheckBulletEnemy() {
-//		for (EnemyBullet j : BasicEnemy.bullets) {
-//			if (j.getX() < 0 || j.getX() > 1160) {
-//				BasicEnemy.bullets.remove(j);
-//				break;
-//			}
-//			if (j.getY() < 0 || j.getY() > 759) {
-//				BasicEnemy.bullets.remove(j);
-//				break;
-//			}
-//			if (Main.player.collided(j.getX(), j.getY(), SIZE, SIZE)) {
-//				System.out.println("take damage");
-//				Main.player.takeDamage(5);
-//				BasicEnemy.bullets.remove(j);
-//			}
+//	public static void CheckBulletEnemy() {
+//		for (int j = 0; j < BasicEnemy.bullets.size(); j++) {
+//			if (Main.player.collided(BasicEnemy.bullets.get(j).getX(), BasicEnemy.bullets.get(j).getY(), 30, 30)) {
 //				if (!Main.player.isFlashing()) {
-//					Main.player.takeDamage(5);
 //					Main.player.hitByEnemy();
+//					BasicEnemy.bullets.remove(j);
+//					Main.player.takeDamage(5);
 //				}
+//			}
+//			if (BasicEnemy.bullets.get(j).getX() < 0 || BasicEnemy.bullets.get(j).getX() > 1200)
+//				BasicEnemy.bullets.remove(j);
+//			if (BasicEnemy.bullets.get(j).getY() < 0 || BasicEnemy.bullets.get(j).getY() > 800)
+//				BasicEnemy.bullets.remove(j);
 //		}
-		for (int j = 0; j < BasicEnemy.bullets.size(); j++) {
-			if (Main.player.collided(BasicEnemy.bullets.get(j).getX(), BasicEnemy.bullets.get(j).getY(), 30, 30)) {
-				if (!Main.player.isFlashing()) {
-					Main.player.hitByEnemy();
-					BasicEnemy.bullets.remove(j);
-					Main.player.takeDamage(5);
-				}
-			}
-			if (BasicEnemy.bullets.get(j).getX() < 0 || BasicEnemy.bullets.get(j).getX() > 1200)
-				BasicEnemy.bullets.remove(j);
-			if (BasicEnemy.bullets.get(j).getY() < 0 || BasicEnemy.bullets.get(j).getY() > 800)
-				BasicEnemy.bullets.remove(j);
-		}
-	}
+//	}
 
 }

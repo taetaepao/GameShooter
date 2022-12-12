@@ -1,24 +1,40 @@
 package logic;
 
 import entityunit.Player;
+import entityunit.Unit;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class Bullet{
 	protected double angle, x, y;
 	private static double SPEED = 5;
 	public static double WIDTH = 20;
+	private int NOTE = -18;
+	protected Image rotatedImage;
+	private String Picture = "image/Bullet.png";
 	
 	public Bullet(double angle, double x, double y){
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
+		picture(Picture);
+	}
+	
+	public void picture(String Picture) {
+		ImageView imageView = new ImageView(Picture);
+		imageView.setFitHeight(50);
+		imageView.setFitWidth(50);
+		imageView.setRotate(angle*60);
+		SnapshotParameters params = new SnapshotParameters();
+		params.setFill(Color.TRANSPARENT);
+		this.rotatedImage =  imageView.snapshot(params, null);
 	}
 	
 	public void render(GraphicsContext gc){
-		gc.setFill(Color.GRAY);
-		gc.fillOval(this.x, this.y, WIDTH, WIDTH);
-		
+		gc.drawImage(rotatedImage, this.getX() + NOTE, this.getY() + NOTE);
 		this.x += Math.cos(this.angle)*SPEED;
 		this.y += Math.sin(this.angle)*SPEED;
 	}

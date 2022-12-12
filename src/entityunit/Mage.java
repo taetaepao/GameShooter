@@ -9,6 +9,8 @@ public class Mage extends BasicEnemy{
 
 	public Mage(int x, int y) {
 		super(x, y);
+		setPicture("image/Mage.png");
+		Main.shedule(5000, () -> spell());
 	}
 
 
@@ -20,10 +22,9 @@ public class Mage extends BasicEnemy{
 
 	@Override
 	public void render(GraphicsContext gc) {
-		Image image = new Image("image/Mage.png", 100, 100, false, false);
-		gc.drawImage(image,this.getX(), this.getY());
+		Image rotatedImage = picture(angle,Width);
+		gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
 		move();
-		Main.shedule(2000, () -> spell());
 	}
 	
 	public void spell() {

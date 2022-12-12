@@ -13,6 +13,8 @@ public class Tank extends BasicEnemy{
 		super(x, y);
 		setHp(10);
 		setSIZE(60);
+		setPicture("image/Tank.png");
+		setWidth(200);
 	}
 
 	@Override
@@ -23,14 +25,8 @@ public class Tank extends BasicEnemy{
 
 	@Override
 	public void render(GraphicsContext gc) {
-		ImageView imageView = new ImageView("image/Tank.png");
-		imageView.setFitHeight(200);
-		imageView.setFitWidth(200);
-		imageView.setRotate(angle*60);
-		SnapshotParameters params = new SnapshotParameters();
-		params.setFill(Color.TRANSPARENT);
-		Image rotatedImage = imageView.snapshot(params, null);
-		gc.drawImage(rotatedImage,this.getX()+NOTE*2, this.getY()+NOTE*2);
+		Image rotatedImage = picture(angle,Width);
+		gc.drawImage(rotatedImage,this.getX()+NOTE*3/2, this.getY()+NOTE*3/2);
 		move();
 	}
 	
