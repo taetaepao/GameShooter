@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 
 public class Bullet{
 	protected double angle, x, y;
-	private static double SPEED = 5;
+	private static double SPEED = 10;
 	public static double WIDTH = 20;
 	private int NOTE = -18;
 	protected Image rotatedImage;

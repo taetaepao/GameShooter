@@ -14,7 +14,7 @@ public class Ranger extends BasicEnemy{
 	public Ranger(int x, int y) {
 		super(x, y);
 		setSpeed(2);
-		setPicture("image/Mage.png");
+		setPicture("image/Ranger.png");
 	}
 
 	public void render(GraphicsContext gc) {

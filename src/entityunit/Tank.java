@@ -15,11 +15,11 @@ public class Tank extends BasicEnemy{
 		setSIZE(60);
 		setPicture("image/Tank.png");
 		setWidth(200);
+		setSpeed(2);
 	}
 
 	@Override
 	public void move() {
-		// TODO Auto-generated method stub
 		super.move();
 	}
 
@@ -27,6 +27,9 @@ public class Tank extends BasicEnemy{
 	public void render(GraphicsContext gc) {
 		Image rotatedImage = picture(angle,Width);
 		gc.drawImage(rotatedImage,this.getX()+NOTE*3/2, this.getY()+NOTE*3/2);
+		gc.fillRect(this.getX()+20,this.getY(), 60 * (this.getHp() / 10.0), 10);
+		gc.setStroke(Color.BLACK);
+		gc.strokeRect(this.getX()+20, this.getY(), 60, 10);
 		move();
 	}
 	

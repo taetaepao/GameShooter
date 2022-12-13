@@ -2,7 +2,12 @@ package logic;
 
 import application.Main;
 import entityunit.BasicEnemy;
+import entityunit.Mage;
 import entityunit.Player;
+import entityunit.Ranger;
+import entityunit.Tank;
+import entityunit.Turret;
+import javafx.scene.canvas.GraphicsContext;
 
 public class GameLogic {
 	
@@ -22,9 +27,7 @@ public class GameLogic {
 					Player.bullets.remove(j);
 				if (Player.bullets.get(j).getY() < 0 || Player.bullets.get(j).getY() > 800)
 					Player.bullets.remove(j);
-
 			}
-
 		}
 	}
 	
@@ -44,5 +47,34 @@ public class GameLogic {
 		}
 	}
 	
-	
+	public static void spawnEnemies(GraphicsContext gc) {
+		Thread spawner = new Thread(() -> {
+			try {
+				while (true) {
+					int x = (int) (Math.random() * 1150);
+					int y = (int) (Math.random() * 800);
+					int z = (int) (Math.random() * 0);
+					if (Main.enemies.size() < 5) {
+						if (z == 0)
+							Main.enemies.add(new Tank(x, y));
+						if (z == 1)
+							Main.enemies.add(new BasicEnemy(x, y));
+						if (z == 2)
+							Main.enemies.add(new Ranger(x, y));
+						if (z == 3)
+							Main.enemies.add(new Turret(x, y));
+						if (z == 4)
+							Main.enemies.add(new Mage(x, y));
+						if (z == 5)
+							Main.enemies.add(new Tank(x, y));
+					}
+					Thread.sleep(1500);
+				}
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+		});
+		spawner.setDaemon(true);
+		spawner.start();
+	}
 }

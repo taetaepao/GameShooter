@@ -19,9 +19,8 @@ public class BasicEnemy extends Unit {
 
 	public BasicEnemy(int x, int y) {
 		super(x, y);
-		setAttack(y);
 		setHp(1);
-		setSpeed(1);
+		setSpeed(4);
 		setSIZE(40);
 		setPicture("image/BasicEnemy.png");
 	}
@@ -31,7 +30,8 @@ public class BasicEnemy extends Unit {
 		this.angle = angle;
 		double x = Math.cos(angle) * this.getSpeed();
 		double y = Math.sin(angle) * this.getSpeed();
-		double distance = Math.sqrt(Math.pow(this.getX() - Main.player.getX(), 2) + Math.pow(this.getY() - Main.player.getY(), 2));
+		double distance = Math
+				.sqrt(Math.pow(this.getX() - Main.player.getX(), 2) + Math.pow(this.getY() - Main.player.getY(), 2));
 		if (distance <= 50) {
 			Main.player.takeDamage(5);
 			if (!Main.player.isFlashing())
@@ -54,12 +54,10 @@ public class BasicEnemy extends Unit {
 	}
 
 	public static void renderBullet(GraphicsContext gc) {
-
-			for (EnemyBullet j : BasicEnemy.bullets) {
-				j.render(gc);
-			}
+		for (EnemyBullet j : BasicEnemy.bullets) {
+			j.render(gc);
+		}
 
 	}
-
 
 }

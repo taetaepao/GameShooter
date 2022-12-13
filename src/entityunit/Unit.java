@@ -2,19 +2,15 @@ package entityunit;
 
 import application.Main;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
-/**
- * @author User
- *
- */
 public abstract class Unit {
 	private double x, y;
 	private int hp;
 	private int speed;
-	private int attack;
 	protected int SIZE,Width=100;
 	protected static int NOTE=-50;
 	private String Picture;
@@ -25,6 +21,7 @@ public abstract class Unit {
 	}
 	
 //	public abstract void move(int x, int y);
+	public abstract void render(GraphicsContext gc);
 	
 	public boolean checkCollision() {
 		for (BasicEnemy e : Main.enemies) {
@@ -75,12 +72,6 @@ public abstract class Unit {
 	}
 	public void setSpeed(int movespeed) {
 		this.speed = movespeed;
-	}
-	public int getAttack() {
-		return attack;
-	}
-	public void setAttack(int attack) {
-		this.attack = attack;
 	}
 
 	public String getPicture() {

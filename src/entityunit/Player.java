@@ -8,6 +8,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -16,7 +17,7 @@ import logic.Bullet;
 public class Player extends Unit {
 	public static List<Bullet> bullets = new ArrayList<>();
 	private boolean shooting = false, damage = false;
-	private int score = 0, lives = 3;
+	private int score = 0;
 	private int hp = 100;
 	public static int bullet = 30;
 	private boolean flashing = false, sleep = false;
@@ -28,8 +29,7 @@ public class Player extends Unit {
 
 	public Player(int x, int y) {
 		super(x, y);
-		setAttack(y);
-		setSpeed(5);
+		setSpeed(10);
 		setPicture("image/Player2.png");
 
 	}
@@ -39,8 +39,24 @@ public class Player extends Unit {
 		flashCounter = 10;
 		flashDurationCounter = 10;
 	}
+	
+	public void Checkmove(){
+		if (Main.keys.getOrDefault(KeyCode.W, false)) {
+			Main.player.move(0, -this.getSpeed());
+		}
+		if (Main.keys.getOrDefault(KeyCode.A, false)) {
+			Main.player.move(-this.getSpeed(), 0);
+		}
+		if (Main.keys.getOrDefault(KeyCode.S, false)) {
+			Main.player.move(0, this.getSpeed());
+		}
+		if (Main.keys.getOrDefault(KeyCode.D, false)) {
+			Main.player.move(this.getSpeed(), 0);
+		}
+	}
 
 	public void render(GraphicsContext gc) {
+		Checkmove();
 		Image rotatedImage = picture(angle,Width);
 		
 		for (int i = 0; i < Player.bullets.size(); i++) {
@@ -72,35 +88,10 @@ public class Player extends Unit {
 			gc.setFill(Color.RED);
 			gc.fillText("FREZZE" , this.getX()-10, this.getY()-20);
 		}
-		
-		//-----------------------------------------------
-//		if (flashing) {
-//			if (flashCounter == 0) {
-//				gc.setFill(Color.RED);
-//				gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
-//				flashing = false;
-//			} else {
-//				if (flashDurationCounter > 0) {
-//					if(flashCounter <= 5) {
-//						gc.setFill(Color.RED);
-//						gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
-//					}
-//					flashDurationCounter--;
-//				} else {
-//					gc.setFill(Color.RED);
-//					gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
-//					flashDurationCounter = 10;
-//					flashCounter--;
-//				}
-//			}
-//		}else {
-//		gc.setFill(Color.RED);
-//		gc.fillOval(this.getX(), this.getY(), SIZE, SIZE);
-//		}
 	}
 
 	public void move(int x, int y) {
-		if (this.getX() + x >= 1 && this.getX() + x <= 1160 && this.getY() + y >= 1 && this.getY() + y <= 759&&sleepTime<0) {
+		if (this.getX() + x >= 60 && this.getX() + x <= 1130 && this.getY() + y >= 60 && this.getY() + y <= 740&&sleepTime<0) {
 			this.setX(this.getX() + x);
 			this.setY(this.getY() + y);
 		}
@@ -143,14 +134,6 @@ public class Player extends Unit {
 
 	public void setScore(int score) {
 		this.score = score;
-	}
-
-	public int getLives() {
-		return lives;
-	}
-
-	public void setLives(int lives) {
-		this.lives = lives;
 	}
 
 	public int getHp() {
