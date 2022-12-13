@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 public abstract class Unit {
 	private double x, y;
@@ -42,7 +43,13 @@ public abstract class Unit {
 		ImageView imageView = new ImageView(this.Picture);
 		imageView.setFitHeight(Width);
 		imageView.setFitWidth(Width);
-		imageView.setRotate(angle*60);
+//		imageView.getTransforms().add(new Rotate(angle*60, 10, 10));
+//		imageView.setRotate(angle*60);
+		// clear transforms
+		imageView.getTransforms().clear();
+	    //rotation
+	    // add rotation to the imageview
+	    imageView.getTransforms().add(new Rotate(angle*60,1000.0,1000.0));
 		SnapshotParameters params = new SnapshotParameters();
 		params.setFill(Color.TRANSPARENT);
 		return imageView.snapshot(params, null);

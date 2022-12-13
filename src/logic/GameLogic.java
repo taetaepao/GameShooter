@@ -40,9 +40,9 @@ public class GameLogic {
 					Main.player.takeDamage(5);
 				}
 			}
-			if (BasicEnemy.bullets.get(j).getX() < 0 || BasicEnemy.bullets.get(j).getX() > 1200)
+			if (BasicEnemy.bullets.get(j).getX() < -40 || BasicEnemy.bullets.get(j).getX() > 1200)
 				BasicEnemy.bullets.remove(j);
-			if (BasicEnemy.bullets.get(j).getY() < 0 || BasicEnemy.bullets.get(j).getY() > 800)
+			if (BasicEnemy.bullets.get(j).getY() < -40 || BasicEnemy.bullets.get(j).getY() > 800)
 				BasicEnemy.bullets.remove(j);
 		}
 	}
@@ -51,22 +51,26 @@ public class GameLogic {
 		Thread spawner = new Thread(() -> {
 			try {
 				while (true) {
-					int x = (int) (Math.random() * 1150);
-					int y = (int) (Math.random() * 800);
-					int z = (int) (Math.random() * 5);
-					if (Main.enemies.size() < 5) {
+					int x = (int) (Math.random() * 2);
+					int y = (int) (Math.random() * 400);
+					int z = (int) (Math.random() * 0);
+					if (x==0)
+						x = -30;
+					if(x==1)
+						x = 1230;
+					if (Main.enemies.size() < 4) {
 						if (z == 0)
-							Main.enemies.add(new BasicEnemy(x, y));
+							Main.enemies.add(new BasicEnemy(x, y+320));
 						if (z == 1)
-							Main.enemies.add(new BasicEnemy(x, y));
+							Main.enemies.add(new BasicEnemy(x, y+320));
 						if (z == 2)
-							Main.enemies.add(new Ranger(x, y));
+							Main.enemies.add(new Ranger(x, y+320));
 						if (z == 3)
-							Main.enemies.add(new Turret(x, y));
+							Main.enemies.add(new Turret(x, y+320));
 						if (z == 4)
-							Main.enemies.add(new Mage(x, y));
+							Main.enemies.add(new Tank(x, y+320));
 						if (z == 5)
-							Main.enemies.add(new Tank(x, y));
+							Main.enemies.add(new BasicEnemy(x, y+320));
 					}
 					Thread.sleep(1500);
 				}

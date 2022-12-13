@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class EnemyBullet extends Bullet {
-	private final double SPEED =10;
+	private final double SPEED =15;
 	public static final double WIDTH = 10;
 	private double dx,dy;
 	private int NOTE = -24;

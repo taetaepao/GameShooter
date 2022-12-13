@@ -63,7 +63,7 @@ public class Main extends Application {
 		timer2.start();
 //		spawner.join();
 
-		GameLogic.spawnEnemies(gc);
+//		GameLogic.spawnEnemies(gc);
 
 		canvas.setOnKeyPressed(e -> Main.keys.put(e.getCode(), true));
 		canvas.setOnKeyReleased(e -> Main.keys.put(e.getCode(), false));
@@ -79,16 +79,6 @@ public class Main extends Application {
 		Image iv = new Image("image/Background2.png");
 		gc.drawImage(iv, 0, 0);
 
-		gc.setFill(Color.GREEN);
-		gc.fillRect(50, HEIGHT - 80, 100 * (Main.player.getHp() / 100.0), 30);
-		gc.setStroke(Color.BLACK);
-		gc.strokeRect(50, HEIGHT - 80, 100, 30);
-		Font front = Font.font("Verdana", FontWeight.BOLD, 15);
-		gc.setFont(front);
-		gc.setFill(Color.RED);
-		gc.fillText("HP", 60, HEIGHT - 60);
-		gc.fillText("Score: " + player.getScore(), 50, HEIGHT - 90);
-		gc.fillText("WAVE: " + wave, 50, HEIGHT - 110);
 		if (Player.bullet != 0)
 			gc.fillText("Bullet: " + Player.bullet + " /30", 50, HEIGHT - 130);
 		else
@@ -108,12 +98,23 @@ public class Main extends Application {
 			this.wavetime = 100;
 			waveshow(gc);
 		}
+		gc.setFill(Color.GREEN);
+		gc.fillRect(50, HEIGHT - 80, 100 * (Main.player.getHp() / 100.0), 30);
+		gc.setStroke(Color.BLACK);
+		gc.strokeRect(50, HEIGHT - 80, 100, 30);
+		Font front = Font.font("Unispace", FontWeight.BOLD, 15);
+		gc.setFont(front);
+		gc.setFill(Color.RED);
+		gc.fillText("HP", 60, HEIGHT - 60);
+		gc.fillText("Score: " + player.getScore(), 50, HEIGHT - 90);
+		gc.fillText("WAVE: " + wave, 50, HEIGHT - 110);
+//		gc.fillRect(0, 320, 200, 430);
 
 	}
 
 	public void waveshow(GraphicsContext gc) {
 		if (wavetime > 0) {
-			Font front2 = Font.font("Verdana", FontWeight.BOLD, 100);
+			Font front2 = Font.font("Unispace", FontWeight.BOLD, 100);
 			gc.setFont(front2);
 			gc.setFill(Color.WHITE);
 			gc.fillText("WAVE " + wave, 350, HEIGHT / 2);

@@ -20,7 +20,7 @@ public class Player extends Unit {
 	private int score = 0;
 	private int hp = 100;
 	public static int bullet = 30;
-	private boolean flashing = false, sleep = false;
+	private boolean flashing = false;
 	private int flashCounter = 0;
 	private int flashDurationCounter = 0;
 	private int sleepTime = 0;
@@ -96,7 +96,7 @@ public class Player extends Unit {
 			this.setY(this.getY() + y);
 		}
 		sleepTime--;
-		System.out.println(sleepTime);
+//		System.out.println(sleepTime);
 	}
 
 	public void shoot(double x, double y) {
@@ -124,7 +124,6 @@ public class Player extends Unit {
 	}
 
 	public void sleep() {
-//		this.sleep = true;
 		sleepTime = 100;
 	}
 
@@ -152,13 +151,6 @@ public class Player extends Unit {
 		this.flashing = flashing;
 	}
 
-	public boolean isSleep() {
-		return sleep;
-	}
-
-	public void setSleep(boolean sleep) {
-		this.sleep = sleep;
-	}
 
 	public int getSleepTime() {
 		return sleepTime;
