@@ -53,10 +53,10 @@ public class GameLogic {
 				while (true) {
 					int x = (int) (Math.random() * 1150);
 					int y = (int) (Math.random() * 800);
-					int z = (int) (Math.random() * 0);
+					int z = (int) (Math.random() * 5);
 					if (Main.enemies.size() < 5) {
 						if (z == 0)
-							Main.enemies.add(new Tank(x, y));
+							Main.enemies.add(new BasicEnemy(x, y));
 						if (z == 1)
 							Main.enemies.add(new BasicEnemy(x, y));
 						if (z == 2)
