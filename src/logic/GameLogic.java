@@ -8,8 +8,10 @@ import entityunit.Ranger;
 import entityunit.Tank;
 import entityunit.Turret;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.AudioClip;
 
 public class GameLogic {
+	private static AudioClip damageSound = new AudioClip(ClassLoader.getSystemResource("sound/damage.mp3").toString());
 	
 	public static void CheckBulletPlayer() {
 		for (BasicEnemy e : Main.enemies) {
@@ -17,6 +19,7 @@ public class GameLogic {
 				if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
 					Player.bullets.remove(j);
 					e.setHp(e.getHp() - 1);
+					damageSound.play();
 					if (e.getHp() == 0) {
 						Main.enemies.remove(e);
 						Main.player.setScore(Main.player.getScore() + 1);
@@ -32,7 +35,7 @@ public class GameLogic {
 	}
 	
 	public static void CheckBulletEnemy() {
-		for (int j = 0; j < BasicEnemy.bullets.size(); j++) {
+		for (int j =  BasicEnemy.bullets.size(); j < BasicEnemy.bullets.size(); j++) {
 			if (Main.player.collided(BasicEnemy.bullets.get(j).getX(), BasicEnemy.bullets.get(j).getY(), 30, 30)) {
 				if (!Main.player.isFlashing()) {
 					Main.player.hitByEnemy();
@@ -66,7 +69,7 @@ public class GameLogic {
 						if (z == 2)
 							Main.enemies.add(new Ranger(x, y+320));
 						if (z == 3)
-							Main.enemies.add(new Turret(x, y+320));
+							Main.enemies.add(new BasicEnemy(x, y+320));
 						if (z == 4)
 							Main.enemies.add(new Tank(x, y+320));
 						if (z == 5)

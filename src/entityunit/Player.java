@@ -1,5 +1,6 @@
 package entityunit;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -25,6 +29,7 @@ public class Player extends Unit {
 	private int flashDurationCounter = 0;
 	private int sleepTime = 0;
 	private double angle;
+	private AudioClip gunSound = new AudioClip(ClassLoader.getSystemResource("sound/gun.mp3").toString());
 	
 
 	public Player(int x, int y) {
@@ -115,6 +120,7 @@ public class Player extends Unit {
 		}else {
 			Main.shedule(150, () -> this.shooting = false);
 		}
+		gunSound.play();
 	}
 
 	public void takeDamage(int dmg) {
