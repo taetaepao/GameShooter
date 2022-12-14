@@ -53,14 +53,14 @@ public class GameLogic {
 				while (true) {
 					int x = (int) (Math.random() * 2);
 					int y = (int) (Math.random() * 400);
-					int z = (int) (Math.random() * 0);
+					int z = (int) (Math.random() * 6);
 					if (x==0)
 						x = -30;
 					if(x==1)
 						x = 1230;
 					if (Main.enemies.size() < 4) {
 						if (z == 0)
-							Main.enemies.add(new BasicEnemy(x, y+320));
+							Main.enemies.add(new Mage(x, y+320));
 						if (z == 1)
 							Main.enemies.add(new BasicEnemy(x, y+320));
 						if (z == 2)

@@ -58,6 +58,7 @@ public class Player extends Unit {
 	public void render(GraphicsContext gc) {
 		Checkmove();
 		Image rotatedImage = picture(angle,Width);
+		double realWidth = rotatedImage.getWidth();
 		
 		for (int i = 0; i < Player.bullets.size(); i++) {
 			Player.bullets.get(i).render(gc);
@@ -65,22 +66,22 @@ public class Player extends Unit {
 
 		if (flashing) {
 			if (flashCounter == 0) {
-				gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
+				gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE, this.getY()-realWidth/2-NOTE);
 				flashing = false;
 			} else {
 				if (flashDurationCounter > 0) {
 					if (flashCounter <= 5) {
-						gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
+						gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE, this.getY()-realWidth/2-NOTE);
 					}
 					flashDurationCounter--;
 				} else {
-					gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
+					gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE, this.getY()-realWidth/2-NOTE);
 					flashDurationCounter = 10;
 					flashCounter--;
 				}
 			}
 		} else {
-			gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
+			gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE, this.getY()-realWidth/2-NOTE);
 		}
 		if(sleepTime>0) {
 			Font front = Font.font("Verdana", FontWeight.BOLD, 15);

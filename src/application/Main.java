@@ -63,7 +63,7 @@ public class Main extends Application {
 		timer2.start();
 //		spawner.join();
 
-//		GameLogic.spawnEnemies(gc);
+		GameLogic.spawnEnemies(gc);
 
 		canvas.setOnKeyPressed(e -> Main.keys.put(e.getCode(), true));
 		canvas.setOnKeyReleased(e -> Main.keys.put(e.getCode(), false));

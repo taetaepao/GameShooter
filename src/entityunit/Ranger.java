@@ -19,7 +19,8 @@ public class Ranger extends BasicEnemy{
 
 	public void render(GraphicsContext gc) {
 		Image rotatedImage = picture(angle,Width);
-		gc.drawImage(rotatedImage,this.getX()+NOTE, this.getY()+NOTE);
+		double realWidth = rotatedImage.getWidth();
+		gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE, this.getY()-realWidth/2-NOTE);
 		move();
 		shoot();
 	}

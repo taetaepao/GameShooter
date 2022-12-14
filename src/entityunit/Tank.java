@@ -14,7 +14,7 @@ public class Tank extends BasicEnemy{
 		setHp(10);
 		setSIZE(60);
 		setPicture("image/Tank.png");
-		setWidth(200);
+		setWidth(180);
 		setSpeed(2);
 	}
 
@@ -26,13 +26,13 @@ public class Tank extends BasicEnemy{
 	@Override
 	public void render(GraphicsContext gc) {
 		Image rotatedImage = picture(angle,Width);
-		gc.drawImage(rotatedImage,this.getX()+NOTE*3/2, this.getY()+NOTE*3/2);
+//		gc.drawImage(rotatedImage,this.getX()+NOTE*3/2, this.getY()+NOTE*3/2);
+		double realWidth = rotatedImage.getWidth();
+		gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE*2, this.getY()-realWidth/2-NOTE*2);
 		gc.setFill(Color.RED);
 		gc.fillRect(this.getX()+20,this.getY(), 60 * (this.getHp() / 10.0), 10);
 		gc.setStroke(Color.BLACK);
 		gc.strokeRect(this.getX()+20, this.getY(), 60, 10);
-		gc.setFill(Color.BLUE);
-		gc.fillOval(this.getX(), this.getY(), 80, 80);
 		move();
 	}
 	
