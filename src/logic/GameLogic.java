@@ -1,12 +1,12 @@
 package logic;
 
-import application.Main;
 import entityunit.BasicEnemy;
 import entityunit.Mage;
 import entityunit.Player;
 import entityunit.Ranger;
 import entityunit.Tank;
 import entityunit.Turret;
+import gui.GameSence;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
 
@@ -14,15 +14,15 @@ public class GameLogic {
 	private static AudioClip damageSound = new AudioClip(ClassLoader.getSystemResource("sound/damage.mp3").toString());
 	
 	public static void CheckBulletPlayer() {
-		for (BasicEnemy e : Main.enemies) {
+		for (BasicEnemy e : GameSence.enemies) {
 			for (int j = 0; j < Player.bullets.size(); j++) {
 				if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
 					Player.bullets.remove(j);
 					e.setHp(e.getHp() - 1);
 					damageSound.play();
 					if (e.getHp() == 0) {
-						Main.enemies.remove(e);
-						Main.player.setScore(Main.player.getScore() + 1);
+						GameSence.enemies.remove(e);
+						GameSence.player.setScore(GameSence.player.getScore() + 1);
 					}
 					break;
 				}
@@ -36,11 +36,11 @@ public class GameLogic {
 	
 	public static void CheckBulletEnemy() {
 		for (int j =  BasicEnemy.bullets.size(); j < BasicEnemy.bullets.size(); j++) {
-			if (Main.player.collided(BasicEnemy.bullets.get(j).getX(), BasicEnemy.bullets.get(j).getY(), 30, 30)) {
-				if (!Main.player.isFlashing()) {
-					Main.player.hitByEnemy();
+			if (GameSence.player.collided(BasicEnemy.bullets.get(j).getX(), BasicEnemy.bullets.get(j).getY(), 30, 30)) {
+				if (!GameSence.player.isFlashing()) {
+					GameSence.player.hitByEnemy();
 					BasicEnemy.bullets.remove(j);
-					Main.player.takeDamage(5);
+					GameSence.player.takeDamage(5);
 				}
 			}
 			if (BasicEnemy.bullets.get(j).getX() < -40 || BasicEnemy.bullets.get(j).getX() > 1200)
@@ -61,19 +61,19 @@ public class GameLogic {
 						x = -30;
 					if(x==1)
 						x = 1230;
-					if (Main.enemies.size() < 4) {
+					if (GameSence.enemies.size() < 4) {
 						if (z == 0)
-							Main.enemies.add(new Mage(x, y+320));
+							GameSence.enemies.add(new Mage(x, y+320));
 						if (z == 1)
-							Main.enemies.add(new BasicEnemy(x, y+320));
+							GameSence.enemies.add(new BasicEnemy(x, y+320));
 						if (z == 2)
-							Main.enemies.add(new Ranger(x, y+320));
+							GameSence.enemies.add(new Ranger(x, y+320));
 						if (z == 3)
-							Main.enemies.add(new BasicEnemy(x, y+320));
+							GameSence.enemies.add(new BasicEnemy(x, y+320));
 						if (z == 4)
-							Main.enemies.add(new Tank(x, y+320));
+							GameSence.enemies.add(new Tank(x, y+320));
 						if (z == 5)
-							Main.enemies.add(new BasicEnemy(x, y+320));
+							GameSence.enemies.add(new BasicEnemy(x, y+320));
 					}
 					Thread.sleep(1500);
 				}

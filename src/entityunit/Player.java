@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.Main;
+import gui.GameSence;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -20,15 +20,16 @@ import logic.Bullet;
 
 public class Player extends Unit {
 	public static List<Bullet> bullets = new ArrayList<>();
-	private boolean shooting = false, damage = false;
 	private int score = 0;
 	private int hp = 100;
-	public static int bullet = 30;
-	private boolean flashing = false;
 	private int flashCounter = 0;
 	private int flashDurationCounter = 0;
 	private int sleepTime = 0;
+	public static int bullet = 30;
 	private double angle;
+	private boolean flashing = false;
+	private boolean shooting = false;
+	private boolean damage = false;
 	private AudioClip gunSound = new AudioClip(ClassLoader.getSystemResource("sound/gun.mp3").toString());
 	private AudioClip reloadSound = new AudioClip(ClassLoader.getSystemResource("sound/reload.mp3").toString());
 	
@@ -47,17 +48,17 @@ public class Player extends Unit {
 	}
 	
 	public void Checkmove(){
-		if (Main.keys.getOrDefault(KeyCode.W, false)) {
-			Main.player.move(0, -this.getSpeed());
+		if (GameSence.keys.getOrDefault(KeyCode.W, false)) {
+			GameSence.player.move(0, -this.getSpeed());
 		}
-		if (Main.keys.getOrDefault(KeyCode.A, false)) {
-			Main.player.move(-this.getSpeed(), 0);
+		if (GameSence.keys.getOrDefault(KeyCode.A, false)) {
+			GameSence.player.move(-this.getSpeed(), 0);
 		}
-		if (Main.keys.getOrDefault(KeyCode.S, false)) {
-			Main.player.move(0, this.getSpeed());
+		if (GameSence.keys.getOrDefault(KeyCode.S, false)) {
+			GameSence.player.move(0, this.getSpeed());
 		}
-		if (Main.keys.getOrDefault(KeyCode.D, false)) {
-			Main.player.move(this.getSpeed(), 0);
+		if (GameSence.keys.getOrDefault(KeyCode.D, false)) {
+			GameSence.player.move(this.getSpeed(), 0);
 		}
 	}
 
@@ -95,6 +96,7 @@ public class Player extends Unit {
 			gc.setFill(Color.RED);
 			gc.fillText("FREZZE" , this.getX()-10, this.getY()-20);
 		}
+		sleepTime--;
 	}
 
 	public void move(int x, int y) {
@@ -102,8 +104,6 @@ public class Player extends Unit {
 			this.setX(this.getX() + x);
 			this.setY(this.getY() + y);
 		}
-		sleepTime--;
-//		System.out.println(sleepTime);
 	}
 
 	public void shoot(double x, double y) {
@@ -116,11 +116,11 @@ public class Player extends Unit {
 		Player.bullets.add(b);
 		bullet--;
 		if (bullet == 0) {
-			Main.shedule(2000, () -> this.shooting = false);
-			Main.shedule(2000, () -> bullet = 30);
+			GameSence.shedule(2000, () -> this.shooting = false);
+			GameSence.shedule(2000, () -> bullet = 30);
 			reloadSound.play();
 		}else {
-			Main.shedule(150, () -> this.shooting = false);
+			GameSence.shedule(150, () -> this.shooting = false);
 		}
 		gunSound.play();
 	}
@@ -129,7 +129,7 @@ public class Player extends Unit {
 		if (damage)return;
 		this.hp -= dmg;
 		damage = true;
-		Main.shedule(400, () -> damage = false);
+		GameSence.shedule(400, () -> damage = false);
 	}
 
 	public void sleep() {

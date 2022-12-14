@@ -1,6 +1,6 @@
 package entityunit;
 
-import application.Main;
+import gui.GameSence;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -23,7 +23,7 @@ public class Mage extends BasicEnemy{
 
 	@Override
 	public void render(GraphicsContext gc) {
-		Image rotatedImage = picture(angle,Width);
+		Image rotatedImage = picture(angle,SIZE);
 		double realWidth = rotatedImage.getWidth();
 		gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE, this.getY()-realWidth/2-NOTE);
 		move();
@@ -40,7 +40,7 @@ public class Mage extends BasicEnemy{
 	}
 	
 	public void spell() {
-		Main.player.sleep();
+		GameSence.player.sleep();
 		System.out.println("spell");
 	}
 

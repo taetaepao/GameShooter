@@ -1,6 +1,6 @@
 package entityunit;
 
-import application.Main;
+import gui.GameSence;
 import javafx.animation.RotateTransition;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +13,8 @@ public abstract class Unit {
 	private double x, y;
 	private int hp;
 	private int speed;
-	protected int SIZE,Width=100;
+	protected int Width=100;
+	protected int SIZE;
 	protected static int NOTE=-15;
 	private String Picture;
 	
@@ -26,7 +27,7 @@ public abstract class Unit {
 	public abstract void render(GraphicsContext gc);
 	
 	public boolean checkCollision() {
-		for (BasicEnemy e : Main.enemies) {
+		for (BasicEnemy e : GameSence.enemies) {
 			if (e != this) {
 				if (e.collided(this.getX(), this.getY(), SIZE, SIZE)) {
 					return true;
@@ -44,20 +45,7 @@ public abstract class Unit {
 		ImageView imageView = new ImageView(this.Picture);
 		imageView.setFitHeight(Width);
 		imageView.setFitWidth(Width);
-//		imageView.getTransforms().add(new Rotate(angle*60, 10, 10));
 		imageView.setRotate(angle*60);
-		// clear transforms
-//		imageView.getTransforms().clear();
-	    //rotation
-	    // add rotation to the imageview
-//	    imageView.getTransforms().add(new Rotate(angle*60,1000.0,1000.0));
-
-        //Add the Rotate to the ImageView's Transforms
-//        Rotate rotation = new Rotate();
-//        rotation.setPivotX(this.x);//Set the Pivot's X to be the same location as the Circle's X. This is only used to help you see the Pivot's point
-//        rotation.setPivotY(this.y);//Set the Pivot's Y to be the same location as the Circle's Y. This is only used to help you see the Pivot's point
-//        rotation.setAngle(angle*60);
-//        imageView.getTransforms().add(rotation);
 		SnapshotParameters params = new SnapshotParameters();
 		params.setFill(Color.TRANSPARENT);
 		return imageView.snapshot(params, null);

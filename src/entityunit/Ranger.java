@@ -1,6 +1,6 @@
 package entityunit;
 
-import application.Main;
+import gui.GameSence;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -27,7 +27,7 @@ public class Ranger extends BasicEnemy{
 	
 	@Override
 	public void move() {
-		double distance = Math.sqrt(Math.pow(this.getX() - Main.player.getX(), 2) + Math.pow(this.getY() - Main.player.getY(), 2));
+		double distance = Math.sqrt(Math.pow(this.getX() - GameSence.player.getX(), 2) + Math.pow(this.getY() - GameSence.player.getY(), 2));
 		if (distance > 350) 
 			super.move();
 	}
@@ -35,8 +35,8 @@ public class Ranger extends BasicEnemy{
 	public void shoot(){
 		if (shooting) return;
 		shooting = true;
-		Main.shedule(1000, () -> this.shooting = false);
-		double angle = Math.atan2(Main.player.getY()-this.getY(), Main.player.getX()-this.getX());
+		GameSence.shedule(1000, () -> this.shooting = false);
+		double angle = Math.atan2(GameSence.player.getY()-this.getY(), GameSence.player.getX()-this.getX());
 		EnemyBullet b = new EnemyBullet(angle, this.getX(), this.getY());
 		BasicEnemy.bullets.add(b);
 	}

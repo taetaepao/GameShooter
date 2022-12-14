@@ -1,6 +1,6 @@
 package entityunit;
 
-import application.Main;
+import gui.GameSence;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -14,7 +14,7 @@ public class Tank extends BasicEnemy{
 		setHp(10);
 		setSIZE(60);
 		setPicture("image/Tank.png");
-		setWidth(180);
+		setSIZE(180);
 		setSpeed(2);
 	}
 
@@ -25,7 +25,7 @@ public class Tank extends BasicEnemy{
 
 	@Override
 	public void render(GraphicsContext gc) {
-		Image rotatedImage = picture(angle,Width);
+		Image rotatedImage = picture(angle,SIZE);
 //		gc.drawImage(rotatedImage,this.getX()+NOTE*3/2, this.getY()+NOTE*3/2);
 		double realWidth = rotatedImage.getWidth();
 		gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE*2, this.getY()-realWidth/2-NOTE*2);
@@ -37,7 +37,7 @@ public class Tank extends BasicEnemy{
 	}
 	
 	public boolean checkCollision() {
-		for (BasicEnemy e : Main.enemies) {
+		for (BasicEnemy e : GameSence.enemies) {
 			if (e != this) {
 				if (e.collided(this.getX(), this.getY(), 80, 80)) {
 					return true;
