@@ -30,6 +30,7 @@ public class Player extends Unit {
 	private int sleepTime = 0;
 	private double angle;
 	private AudioClip gunSound = new AudioClip(ClassLoader.getSystemResource("sound/gun.mp3").toString());
+	private AudioClip reloadSound = new AudioClip(ClassLoader.getSystemResource("sound/reload.mp3").toString());
 	
 
 	public Player(int x, int y) {
@@ -117,6 +118,7 @@ public class Player extends Unit {
 		if (bullet == 0) {
 			Main.shedule(2000, () -> this.shooting = false);
 			Main.shedule(2000, () -> bullet = 30);
+			reloadSound.play();
 		}else {
 			Main.shedule(150, () -> this.shooting = false);
 		}
