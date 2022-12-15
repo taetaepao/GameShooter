@@ -14,10 +14,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-	public static Stage primaryStage;
+	public static Stage stage;
+	public static Scene scene1, scene2, scene3;
 	
 	
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage stage) throws Exception {
 		Canvas canvas = initializeBackground("image/Main.png");
 		
 		StackPane root = new StackPane();
@@ -25,70 +26,63 @@ public class Main extends Application {
 		root.setPrefWidth(1200);
 		root.setPadding(new Insets(8));
 		
-		GameSence GameSence = new GameSence();
+		
 		MainMenuPane mainMenuPane = new MainMenuPane();
 		root.getChildren().addAll(canvas,mainMenuPane);
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("MainMenu");
-		primaryStage.show();
-		this.primaryStage = primaryStage;
+		Scene scene1 = new Scene(root);
+		
+		StackPane root2 = new StackPane();
+	    root2.setPrefHeight(800);
+	    root2.setPrefWidth(1200);
+	    root2.setPadding(new Insets(8));
+	    
+	    GameSence gameSence = new GameSence();
+	    root2.getChildren().add(gameSence);
+	    Scene scene2 = new Scene(root2);
+	    
+	    
+	    Canvas canvas2 = initializeBackground("image/GameOver.png");
+		StackPane root3 = new StackPane();
+	    root3.setPrefHeight(800);
+	    root3.setPrefWidth(1200);
+	    root3.setPadding(new Insets(8));
+	    
+	    GameOverPane GameOver = new GameOverPane();
+	    root3.getChildren().addAll(canvas2,GameOver);
+	    Scene scene3 = new Scene(root3);
+	    stage.setScene(scene1);
+		stage.setTitle("MainMenu");
+		stage.show();
+		Main.stage = stage;
+		
 	}
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	public static Stage getPrimaryStage() {
-		return primaryStage;
-	}
-
-	public static void setPrimaryStage(Stage scene) {
-		Main.primaryStage = scene;
-	}
+//	public static Stage getPrimaryStage() {
+//		return Stage;
+//	}
+//
+//	public static void setPrimaryStage(Stage scene) {
+//		stage = scene;
+//	}
 	
 	public static void Game() {
-		StackPane root = new StackPane();
-	    root.setPrefHeight(800);
-	    root.setPrefWidth(1200);
-	    root.setPadding(new Insets(8));
-	    
-	    GameSence gameSence = new GameSence();
-	    root.getChildren().add(gameSence);
-	    Scene scene = new Scene(root);
-	    Stage stage = Main.primaryStage;
-	    stage.setScene(scene);
-	    stage.show();
+		scene1.;
+		stage.setScene(scene2);
+		
 	}
 	
 	public static void MainMenu() {
-		Canvas canvas = initializeBackground("image/Main.png");
-		StackPane root = new StackPane();
-	    root.setPrefHeight(800);
-	    root.setPrefWidth(1200);
-	    root.setPadding(new Insets(8));
-	    
-	    MainMenuPane mainMenuPane = new MainMenuPane();
-	    root.getChildren().addAll(canvas,mainMenuPane);
-	    Scene scene = new Scene(root);
-	    Stage stage = Main.primaryStage;
-	    stage.setScene(scene);
-	    stage.show();
+		stage.setScene(scene1);
+		stage.show();
 	}
 	
 	public static void GameOver() {
-		Canvas canvas = initializeBackground("image/GameOver.png");
-		StackPane root = new StackPane();
-	    root.setPrefHeight(800);
-	    root.setPrefWidth(1200);
-	    root.setPadding(new Insets(8));
-	    
-	    GameOverPane gameOverPane = new GameOverPane();
-	    root.getChildren().addAll(canvas,gameOverPane);
-	    Scene scene = new Scene(root);
-	    Stage stage = Main.primaryStage;
-	    stage.setScene(scene);
-	    stage.show();
+		stage.setScene(scene3);
+		stage.show();
 	}
 	
 	private static  Canvas initializeBackground(String image) {

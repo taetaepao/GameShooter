@@ -58,25 +58,10 @@ public class MainMenuPane extends VBox {
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-			    StackPane root = new StackPane();
-			    root.setPrefHeight(800);
-			    root.setPrefWidth(1200);
-			    root.setPadding(new Insets(8));
-			    
-			    GameSence gameSence = new GameSence();
-			    root.getChildren().add(gameSence);
-			    Scene scene = new Scene(root);
-			    Stage stage = Main.primaryStage;
-			    stage.setScene(scene);
-			    stage.show();
+			    Main.Game();
 			}
 		});        
 	}
-//	Main.primaryStage.setScene(scene2);
-//	Main.primaryStage.setTitle("MainMenu");
-//	Main.primaryStage.show();
-//	Main.setPrimaryStage(Main.primaryStage.setScene(scene2));
-//	Main.start(Main.getPrimaryStage());
 	
 	private void initializeExitButton() {
 		exitButton = new Button("EXIT");

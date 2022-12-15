@@ -15,24 +15,30 @@ public class GameLogic {
 	
 	public static void CheckBulletPlayer() {
 		for (BasicEnemy e : GameSence.enemies) {
-			for (int j = 0; j < Player.bullets.size(); j++) {
-				if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
-					Player.bullets.remove(j);
-					e.setHp(e.getHp() - 1);
-					damageSound.play();
-					if (e.getHp() == 0) {
-						GameSence.enemies.remove(e);
-						GameSence.player.setScore(GameSence.player.getScore() + 1);
+			for (int j = Player.bullets.size() - 1; j >= 0; j--) {
+				try {
+					if (e.collided(Player.bullets.get(j).getX(), Player.bullets.get(j).getY(), 30, 30)) {
+						Player.bullets.remove(j);
+						e.setHp(e.getHp() - 1);
+						damageSound.play();
+						if (e.getHp() == 0) {
+							// remove enemy from list here
+							GameSence.enemies.remove(e);
+							GameSence.player.setScore(GameSence.player.getScore() + 1);
+						}
 					}
-					break;
+					if (Player.bullets.get(j).getX() < 0 || Player.bullets.get(j).getX() > 1200)
+						Player.bullets.remove(j);
+					if (Player.bullets.get(j).getY() < 0 || Player.bullets.get(j).getY() > 800)
+						Player.bullets.remove(j);
+				} catch (IndexOutOfBoundsException ex) {
+					// handle the exception here
 				}
-				if (Player.bullets.get(j).getX() < 0 || Player.bullets.get(j).getX() > 1200)
-					Player.bullets.remove(j);
-				if (Player.bullets.get(j).getY() < 0 || Player.bullets.get(j).getY() > 800)
-					Player.bullets.remove(j);
 			}
 		}
 	}
+
+
 	
 	public static void CheckBulletEnemy() {
 		for (int j =  BasicEnemy.bullets.size(); j < BasicEnemy.bullets.size(); j++) {

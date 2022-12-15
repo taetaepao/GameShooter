@@ -28,7 +28,6 @@ public class Mage extends BasicEnemy{
 		gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE, this.getY()-realWidth/2-NOTE);
 		move();
 		this.SpellTime++;
-		System.out.println(this.SpellTime);
 		if(this.SpellTime == 150) {
 			spell();
 			this.SpellTime = 0;

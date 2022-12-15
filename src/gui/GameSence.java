@@ -38,6 +38,7 @@ public class GameSence extends StackPane {
 	private int wavetime = 100, wave = 0;
 
 	public GameSence() {
+//		enemies.clear();
 		GameSence.player = new Player(200, 200);
 		Canvas canvas = new Canvas(WIDTH, HEIGHT);
 		canvas.setFocusTraversable(true);
@@ -101,9 +102,14 @@ public class GameSence extends StackPane {
 		gc.fillText("WAVE: " + wave, 50, HEIGHT - 110);
 		
 		if (GameSence.player.getHp()==0) {
-			Main.GameOver();
+			gameover();
 		}
-
+	}
+	
+	public void gameover() {
+		Main.GameOver();
+		enemies.clear();
+		GameSence.player.setHp(-1);
 	}
 
 	public void waveshow(GraphicsContext gc) {
