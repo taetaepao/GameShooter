@@ -21,6 +21,7 @@ import javafx.scene.input.KeyCode;
 
 import java.util.*;
 
+import application.Main;
 import entityunit.BasicEnemy;
 import entityunit.Mage;
 import entityunit.Player;
@@ -38,11 +39,9 @@ public class GameSence extends StackPane {
 
 	public GameSence() {
 		GameSence.player = new Player(200, 200);
-		StackPane pane = new StackPane();
 		Canvas canvas = new Canvas(WIDTH, HEIGHT);
 		canvas.setFocusTraversable(true);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		pane.getChildren().add(canvas);
 		AnimationTimer timer = new AnimationTimer() {
 			public void handle(long now) {
 				update(gc);
@@ -64,7 +63,7 @@ public class GameSence extends StackPane {
 		canvas.setOnKeyReleased(e -> GameSence.keys.put(e.getCode(), false));
 		canvas.setOnMousePressed(e -> GameSence.player.shoot(e.getX(), e.getY()));
 		canvas.setOnMouseDragged(e -> GameSence.player.shoot(e.getX(), e.getY()));
-		this.getChildren().add(pane);
+		this.getChildren().add(canvas);
 	}
 
 	private void update(GraphicsContext gc) {
@@ -100,6 +99,10 @@ public class GameSence extends StackPane {
 		gc.fillText("HP", 60, HEIGHT - 60);
 		gc.fillText("Score: " + player.getScore(), 50, HEIGHT - 90);
 		gc.fillText("WAVE: " + wave, 50, HEIGHT - 110);
+		
+		if (GameSence.player.getHp()==0) {
+			Main.GameOver();
+		}
 
 	}
 

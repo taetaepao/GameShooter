@@ -20,7 +20,7 @@ import logic.Bullet;
 
 public class Player extends Unit {
 	public static List<Bullet> bullets = new ArrayList<>();
-	private int score = 0;
+	private static int score = 0;
 	private int hp = 100;
 	private int flashCounter = 0;
 	private int flashDurationCounter = 0;
@@ -136,7 +136,7 @@ public class Player extends Unit {
 		sleepTime = 100;
 	}
 
-	public int getScore() {
+	public static int getScore() {
 		return score;
 	}
 

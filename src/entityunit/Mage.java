@@ -23,7 +23,7 @@ public class Mage extends BasicEnemy{
 
 	@Override
 	public void render(GraphicsContext gc) {
-		Image rotatedImage = picture(angle,SIZE);
+		Image rotatedImage = picture(angle,Width);
 		double realWidth = rotatedImage.getWidth();
 		gc.drawImage(rotatedImage,this.getX()-realWidth/2-NOTE, this.getY()-realWidth/2-NOTE);
 		move();

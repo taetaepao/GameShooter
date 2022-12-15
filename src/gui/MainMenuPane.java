@@ -2,10 +2,12 @@ package gui;
 import java.awt.Canvas;
 
 import application.Main;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -22,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class MainMenuPane extends VBox {
 	//properties
@@ -39,7 +42,6 @@ public class MainMenuPane extends VBox {
 		setPrefWidth(1200);
 		setSpacing(50);
 		setPadding(new Insets(40));
-		//setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 		initializeExitButton();
 		initializePlayButton();
 		this.getChildren().addAll(playButton,exitButton);
@@ -52,22 +54,29 @@ public class MainMenuPane extends VBox {
 		playButton.setPrefHeight(150);
 		playButton.setPrefWidth(400);
 		playButton.setTextFill(Color.DARKRED);
+		
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-		    	StackPane root = new StackPane();
-				root.setPrefHeight(800);
-				root.setPrefWidth(1200);
-				
-				GameSence GameSence = new GameSence();
-				root.getChildren().add(GameSence);
-				Scene scene2 = new Scene(root);
-				Main.setPrimaryStage(Main.primaryStage.setScene(scene2));
-				Main.start(Main.getPrimaryStage());
-		        }
-		});
-		            
+			    StackPane root = new StackPane();
+			    root.setPrefHeight(800);
+			    root.setPrefWidth(1200);
+			    root.setPadding(new Insets(8));
+			    
+			    GameSence gameSence = new GameSence();
+			    root.getChildren().add(gameSence);
+			    Scene scene = new Scene(root);
+			    Stage stage = Main.primaryStage;
+			    stage.setScene(scene);
+			    stage.show();
+			}
+		});        
 	}
+//	Main.primaryStage.setScene(scene2);
+//	Main.primaryStage.setTitle("MainMenu");
+//	Main.primaryStage.show();
+//	Main.setPrimaryStage(Main.primaryStage.setScene(scene2));
+//	Main.start(Main.getPrimaryStage());
 	
 	private void initializeExitButton() {
 		exitButton = new Button("EXIT");
@@ -75,6 +84,6 @@ public class MainMenuPane extends VBox {
 		exitButton.setPrefWidth(400);
 		exitButton.setFont(fontForText.font("Verdana",FontWeight.BOLD,50));
 		exitButton.setTextFill(Color.DARKRED);
+		exitButton.setOnAction(event -> Platform.exit());
 	}
-
 }
